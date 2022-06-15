@@ -13,6 +13,7 @@ import (
 
 	"os"
 	"strconv"
+
 	"strings"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -94,27 +95,25 @@ func CounterHandler(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 
 	if r.Method == http.MethodGet {
-		counter, err := getCurrentCounter()
 		redisCounter, err2 := getRedisCurrentCounter()
 		mongoCounter, err3 := getMongoCurrentCounter()
-		if err != nil || err2 != nil || err3 != nil {
+		if err2 != nil || err3 != nil {
 			res.Code = -1
-			res.ErrorMsg = err.Error()
+			res.ErrorMsg = err2.Error()
 		} else {
-			res.Data = counter.Count
 			res.RedisData = redisCounter.Count
 			res.MongoData = mongoCounter.Count
 		}
 	} else if r.Method == http.MethodPost {
 		modifyCounter(r)
-		counter, err := getCurrentCounter()
+		//counter, err := getCurrentCounter()
 		redisCounter, err2 := getRedisCurrentCounter()
 		mongoCounter, err3 := getMongoCurrentCounter()
-		if err != nil || err2 != nil || err3 != nil {
+		if err2 != nil || err3 != nil {
 			res.Code = -1
-			res.ErrorMsg = err.Error()
+			res.ErrorMsg = err2.Error()
 		} else {
-			res.Data = counter.Count
+			//res.Data = counter.Count
 			res.RedisData = redisCounter.Count
 			res.MongoData = mongoCounter.Count
 		}
@@ -246,10 +245,10 @@ func modifyCounter(r *http.Request) (int32, error) {
 	if action == "inc" {
 		if dbType == "mysql" {
 			fmt.Println("inc redis count")
-			count, err = upsertCounter(r)
-			if err != nil {
-				return 0, err
-			}
+			//count, err = upsertCounter(r)
+			//if err != nil {
+			//	return 0, err
+			//}
 		} else if dbType == "redis" {
 			fmt.Println("inc redis count")
 			count, err = upsertCounterRedis(r)

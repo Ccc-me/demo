@@ -206,13 +206,6 @@
     <div style="display: inline; margin-bottom: 48px" class="title-text">欢迎使用抖音云托管</div>
   </div>
   <div style="text-align: center; display: flex; flex-direction: column; align-items: center; margin: 0">
-      <span class="count-text">
-        <span style="margin-right: 16px;">mysql当前计数:</span>
-        <span class="count-number"></span>
-        <!-- <span class="count-reset" onclick="set('clear')">清零</span> -->
-      </span>
-    <a class="btn btn-success btn-lg count-button" style="background: #07c160; border: 0"
-       onclick="set('inc','mysql')">计数+1</a>
 
     <span class="count-text">
           <span style="margin-right: 16px;">redis当前计数:</span>
@@ -265,7 +258,6 @@
       }),
     }).done(function (res) {
       if (res && res.data !== undefined) {
-        $(".count-number").html(res.data);
         $(".redis-count-number").html(res.redis_data);
         $(".mongo-count-number").html(res.mongo_data);
       }

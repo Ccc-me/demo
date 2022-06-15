@@ -11,9 +11,6 @@ import (
 )
 
 func main() {
-	if err := db.InitMysql(); err != nil {
-		panic(fmt.Sprintf("mysql init failed with %+v", err))
-	}
 
 	if err := db.InitRedis(); err != nil {
 		panic(fmt.Sprintf("redis init failed with %+v", err))
@@ -27,7 +24,7 @@ func main() {
 	http.HandleFunc("/api/count", service.CounterHandler)
 
 
-    http.HandleFunc("/api/test", service.TestHandler)
+	http.HandleFunc("/api/test", service.TestHandler)
 	http.HandleFunc("/api/get_follow_list", service.FollowListHandler)
 	http.HandleFunc("/api/get_follow_list_test", service.TestFollowListHandler)
 	http.HandleFunc("/v1/ping", service.PingHandler)
