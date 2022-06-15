@@ -146,7 +146,11 @@ func FollowListHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "内部错误")
 		return
 	}
-	openId := os.Getenv("OPEN_ID")
+	openId := r.Header.Get("X-DYC-OPENID")
+	if openId == "" {
+		fmt.Fprint(w, "X-DYC-OPENID 为空")
+		return
+	}
 	query := req.URL.Query()
 	query.Add("open_id", openId)
 	query.Add("cursor", "0")
@@ -200,7 +204,11 @@ func TestFollowListHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "内部错误")
 		return
 	}
-	openId := os.Getenv("OPEN_ID")
+	openId := r.Header.Get("X-DYC-OPENID")
+	if openId == "" {
+		fmt.Fprint(w, "X-DYC-OPENID 为空")
+		return
+	}
 	query := req.URL.Query()
 	query.Add("open_id", openId)
 	query.Add("cursor", "0")
