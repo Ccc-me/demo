@@ -3,7 +3,7 @@ set -ex
 cd `dirname $0`
 
 if [ -d "output" ]; then
-    exec ./output/main
+    exec ./output/demo
 else
-    exec ./main
+    exec ./demo
 fi
