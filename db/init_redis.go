@@ -22,14 +22,14 @@ func InitRedis() (err error) {
 		Addr:     addr,
 		Username: user,
 		Password: pwd, // no password set
-		DB:       0,                 // use default DB
+		DB:       0,   // use default DB
 	})
 
 	val, err := rdb.Get(ctx, "count").Result()
 	if err != nil {
 		err = rdb.Set(ctx, "count", "0", 0).Err()
 		if err != nil {
-			panic(err)
+			//panic(err)
 		}
 	}
 	fmt.Println("count = ", val)
