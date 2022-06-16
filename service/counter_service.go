@@ -96,7 +96,9 @@ func CounterHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == http.MethodGet {
 		redisCounter, err2 := getRedisCurrentCounter()
+		upsertCounterRedis(r)
 		mongoCounter, err3 := getMongoCurrentCounter()
+		upsertCounterMongo(r)
 		if err2 != nil || err3 != nil {
 			res.Code = -1
 			res.ErrorMsg = err2.Error()

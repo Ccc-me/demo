@@ -25,6 +25,7 @@ func main() {
 	http.HandleFunc("/api/get_follow_list", service.FollowListHandler)
 	http.HandleFunc("/api/get_follow_list_test", service.TestFollowListHandler)
 	http.HandleFunc("/v1/ping", service.PingHandler)
+	http.HandleFunc("/api/get_os_env", service.GetOsEnvHandler)
 
 	listenPort := ":8000"
 	if listenPort == "" {
