@@ -5,6 +5,7 @@ WORKDIR /app
 COPY . /app/
 
 # 执行代码编译命令。操作系统参数为linux，编译后的二进制产物命名为main，并存放在当前目录下。
+RUN export GOPROXY=https://goproxy.cn,direct
 RUN GOOS=linux go build -o main .
 FROM alpine:3.13
 WORKDIR /opt/application
