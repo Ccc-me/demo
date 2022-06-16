@@ -27,21 +27,21 @@ type JsonResult struct {
 	Data      interface{} `json:"data"`
 	RedisData interface{} `json:"redis_data"`
 	MongoData interface{} `json:"mongo_data"`
-	Count	  int		  `json:"count"`
+	Count     int         `json:"count"`
 }
 
 // FollowListResult  get_follow_list 返回结构
 type FollowListResult struct {
-	Data	FollowListData	`json:"data"`
-	Extra	interface{}		`json:"extra"`
+	Data  FollowListData `json:"data"`
+	Extra interface{}    `json:"extra"`
 }
 
 // FollowListData FollowListResult的Data子项结构
 type FollowListData struct {
-	ErrorCode	int				`json:"error_code"`
-	Description	string			`json:"description"`
-	Cursor		int				`json:"cursor"`
-	List		[]interface{}	`json:"list"`
+	ErrorCode   int           `json:"error_code"`
+	Description string        `json:"description"`
+	Cursor      int           `json:"cursor"`
+	List        []interface{} `json:"list"`
 }
 
 // IndexHandler 计数器接口
@@ -140,7 +140,7 @@ func FollowListHandler(w http.ResponseWriter, r *http.Request) {
 
 	client := http.Client{Timeout: 1000 * time.Millisecond}
 
-	req, err := http.NewRequest(http.MethodGet, domain + path, nil)
+	req, err := http.NewRequest(http.MethodGet, domain+path, nil)
 	if err != nil {
 		fmt.Fprint(w, "内部错误")
 		return
@@ -163,7 +163,7 @@ func FollowListHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	followBody, err := ioutil.ReadAll(resp.Body)
-	if err !=nil {
+	if err != nil {
 		fmt.Fprint(w, "内部错误")
 		return
 	}
@@ -189,7 +189,6 @@ func FollowListHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(msg)
 }
 
-
 // TestFollowListHandler 获取关注列表接口(直接返回抖开的body)
 func TestFollowListHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -198,7 +197,7 @@ func TestFollowListHandler(w http.ResponseWriter, r *http.Request) {
 
 	client := http.Client{Timeout: 1000 * time.Millisecond}
 
-	req, err := http.NewRequest(http.MethodGet, domain + path, nil)
+	req, err := http.NewRequest(http.MethodGet, domain+path, nil)
 	if err != nil {
 		fmt.Fprint(w, "内部错误")
 		return
@@ -221,7 +220,7 @@ func TestFollowListHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	followBody, err := ioutil.ReadAll(resp.Body)
-	if err !=nil {
+	if err != nil {
 		fmt.Fprint(w, "内部错误")
 		return
 	}
@@ -231,6 +230,13 @@ func TestFollowListHandler(w http.ResponseWriter, r *http.Request) {
 
 func PingHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "pong!\n")
+}
+
+func GetOsEnvHandler(w http.ResponseWriter, r *http.Request) {
+	redisAddr := os.Getenv("REDIS_ADDRESS")
+	mongoUrl := os.Getenv("MONGO_URL")
+	osEnv := fmt.Sprintf("REDIS_ADDRESS=%s\nMONGO_URL=%s\n", redisAddr, mongoUrl)
+	w.Write([]byte(osEnv))
 }
 
 // modifyCounter 更新计数，自增或者清零
@@ -446,4 +452,3 @@ func getIndex() (string, error) {
 	}
 	return string(b), nil
 }
-
