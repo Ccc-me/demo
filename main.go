@@ -26,7 +26,7 @@ func main() {
 	http.HandleFunc("/api/get_follow_list_test", service.TestFollowListHandler)
 	http.HandleFunc("/v1/ping", service.PingHandler)
 
-	listenPort := ":8090"
+	listenPort := ":8000"
 	if listenPort == "" {
 		log.Fatal("failed to load _FAAS_RUNTIME_PORT")
 	}
