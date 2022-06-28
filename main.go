@@ -24,6 +24,7 @@ func main() {
 	http.HandleFunc("/api/test", service.TestHandler)
 	http.HandleFunc("/api/get_follow_list", service.FollowListHandler)
 	http.HandleFunc("/api/get_follow_list_test", service.TestFollowListHandler)
+	http.HandleFunc("/api/test_end_gateway", service.TestEndGateHandler)
 	http.HandleFunc("/v1/ping", service.PingHandler)
 	http.HandleFunc("/api/get_os_env", service.GetOsEnvHandler)
 

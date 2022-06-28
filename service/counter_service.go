@@ -191,6 +191,45 @@ func FollowListHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(msg)
 }
 
+// TestEndGateHandler 获取关注列表接口(直接返回抖开的body)
+func TestEndGateHandler(w http.ResponseWriter, r *http.Request) {
+
+	domain := "https://douyincloud.gateway.egress.ivolces.com"
+	//domain := "https://developer.toutiao.com"
+	path := "/api/v2/tags/text/antidirt"
+
+	//payload := strings.NewReader(`{"access_token": "0801121846765a5a4d2f6b385a68307237534d43397a667865513d3d","appname": "douyin"}`)
+	payloadWithoutToken := strings.NewReader(`{"tasks": [{"content": "要检测的文本"}]}`)
+
+	client := http.Client{Timeout: 1000 * time.Millisecond}
+
+	req, err := http.NewRequest(http.MethodPost, domain+path, payloadWithoutToken)
+	req.Header.Set("Content-Type", "application/json")
+	if err != nil {
+		fmt.Fprint(w, "内部错误")
+		return
+	}
+	openId := r.Header.Get("X-Tt-Openid")
+	if openId == "" {
+		fmt.Fprint(w, "X-Tt-Openid 为空")
+		return
+	}
+	resp, err := client.Do(req)
+	defer resp.Body.Close()
+	if err != nil {
+		fmt.Fprint(w, "call openapi error")
+		return
+	}
+
+	followBody, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Fprint(w, "内部错误")
+		return
+	}
+	w.Header().Set("content-type", "application/json")
+	w.Write(followBody)
+}
+
 // TestFollowListHandler 获取关注列表接口(直接返回抖开的body)
 func TestFollowListHandler(w http.ResponseWriter, r *http.Request) {
 
