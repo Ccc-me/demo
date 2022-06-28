@@ -194,7 +194,7 @@ func FollowListHandler(w http.ResponseWriter, r *http.Request) {
 // TestEndGateHandler 获取关注列表接口(直接返回抖开的body)
 func TestEndGateHandler(w http.ResponseWriter, r *http.Request) {
 
-	domain := "https://douyincloud.gateway.egress.ivolces.com"
+	domain := "http://douyincloud.gateway.egress.ivolces.com"
 	//domain := "https://developer.toutiao.com"
 	path := "/api/v2/tags/text/antidirt"
 
