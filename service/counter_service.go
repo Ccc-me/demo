@@ -90,6 +90,16 @@ func TestHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write(msg)
 }
 
+// ErrorTestHandler 测试错误信息
+func ErrorTestHandler(w http.ResponseWriter, r *http.Request) {
+	statusStr := r.URL.Query().Get("status_id")
+	statusId, err := strconv.Atoi(statusStr)
+	if err != nil {
+		statusId = 500
+	}
+	w.WriteHeader(statusId)
+}
+
 // CounterHandler 计数器接口
 func CounterHandler(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}

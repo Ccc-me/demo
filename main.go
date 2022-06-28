@@ -21,6 +21,8 @@ func main() {
 	http.HandleFunc("/", service.IndexHandler)
 	http.HandleFunc("/api/count", service.CounterHandler)
 
+	http.HandleFunc("/api/error_test", service.ErrorTestHandler)
+
 	http.HandleFunc("/api/test", service.TestHandler)
 	http.HandleFunc("/api/get_follow_list", service.FollowListHandler)
 	http.HandleFunc("/api/get_follow_list_test", service.TestFollowListHandler)
