@@ -278,6 +278,16 @@ func TestFollowListHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
 	w.Write(followBody)
 }
+func TestSleepHandler(w http.ResponseWriter, r *http.Request) {
+	sleepTimeStr := r.URL.Query().Get("sleep_time")
+	sleepTimeId, err := strconv.Atoi(sleepTimeStr)
+	if err != nil {
+		sleepTimeId = 10
+	}
+	time.Sleep(time.Duration(sleepTimeId) * time.Second)
+	str := fmt.Sprintf("sleep %d s done\n", sleepTimeId)
+	w.Write([]byte(str))
+}
 
 func PingHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "pong!\n")
