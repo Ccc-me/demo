@@ -4,6 +4,7 @@ import (
 	"context"
 	"demo/db/model"
 	"fmt"
+	"net/url"
 	"os"
 	"time"
 
@@ -13,15 +14,21 @@ import (
 
 var mongoInstance *mongo.Client
 
+const DataBase = "cloud"
+
 func InitMongoDB() error {
 	user := os.Getenv("MONGO_USERNAME")
 	pwd := os.Getenv("MONGO_PASSWORD")
-	authSource := os.Getenv("MONGO_AUTHSOURCE")
-	mongoUrl := os.Getenv("MONGO_URL")
-	mongoDataBase := os.Getenv("MONGO_DATABASE")
-
+	mongoAddress := os.Getenv("MONGO_ADDRESS")
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
+
+	tmp, err := url.Parse(mongoAddress)
+	if err != nil {
+		fmt.Printf("mongoAddress parse error err %v", err)
+		return err
+	}
+	authSource := tmp.Query().Get("authSource")
 
 	credential := options.Credential{
 		AuthSource: authSource,
@@ -29,6 +36,7 @@ func InitMongoDB() error {
 		Password:   pwd,
 	}
 
+	mongoUrl := fmt.Sprintf("mongodb://%s", mongoAddress)
 
 	clientOpts := options.Client().ApplyURI(mongoUrl).SetAuth(credential)
 
@@ -38,7 +46,7 @@ func InitMongoDB() error {
 		return err
 	}
 
-	coll := client.Database(mongoDataBase).Collection("count")
+	coll := client.Database(DataBase).Collection("count")
 	doc := &model.MongoCount{
 		Type:  "mongodb",
 		Count: 2022,

@@ -295,7 +295,7 @@ func PingHandler(w http.ResponseWriter, r *http.Request) {
 
 func GetOsEnvHandler(w http.ResponseWriter, r *http.Request) {
 	redisAddr := os.Getenv("REDIS_ADDRESS")
-	mongoUrl := os.Getenv("MONGO_URL")
+	mongoUrl := os.Getenv("MONGO_ADDRESS")
 	osEnv := fmt.Sprintf("REDIS_ADDRESS=%s\nMONGO_URL=%s\n", redisAddr, mongoUrl)
 	w.Write([]byte(osEnv))
 }
@@ -394,8 +394,7 @@ func upsertCounterRedis(r *http.Request) (int32, error) {
 // upsertCounter 更新或修改计数器
 func upsertCounterMongo(r *http.Request) (int32, error) {
 	client := db.GetMongo()
-	mongoDataBase := os.Getenv("MONGO_DATABASE")
-	coll := client.Database(mongoDataBase).Collection("count")
+	coll := client.Database(db.DataBase).Collection("count")
 
 	doc := &model.MongoCount{}
 
