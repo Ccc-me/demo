@@ -458,8 +458,7 @@ func getRedisCurrentCounter() (*model.CounterModel, error) {
 // getCurrentCounter mongo 查询当前计数器
 func getMongoCurrentCounter() (*model.CounterModel, error) {
 	client := db.GetMongo()
-	mongoDataBase := os.Getenv("MONGO_DATABASE")
-	coll := client.Database(mongoDataBase).Collection("count")
+	coll := client.Database(db.DataBase).Collection("count")
 
 	doc := &model.MongoCount{}
 
